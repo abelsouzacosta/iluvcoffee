@@ -1,21 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { CoffeeRepository } from './domain/repositories/coffee.repository';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
-import { Coffee } from './entities/coffee.entity';
 
 @Injectable()
 export class CoffeesService {
-  constructor(
-    @InjectRepository(Coffee)
-    private readonly repository: Repository<Coffee>,
-  ) {}
+  constructor(private readonly repository: CoffeeRepository) {}
 
   async create(data: CreateCoffeeDto) {
-    const coffee = this.repository.create(data);
-
-    return this.repository.save(coffee);
+    return this.repository.create(data);
   }
 
   findAll() {
@@ -23,23 +16,16 @@ export class CoffeesService {
   }
 
   async findOne(id: number) {
-    const coffee = await this.repository.findOne({ where: { id } });
+    const coffee = await this.repository.findById(id);
 
     return coffee;
   }
 
   async update(id: number, data: UpdateCoffeeDto) {
-    const coffee = await this.repository.preload({
-      id,
-      ...data,
-    });
-
-    return this.repository.save(coffee);
+    return this.repository.update(id, data);
   }
 
   async remove(id: number) {
-    const coffee = await this.findOne(id);
-
-    return this.repository.remove(coffee);
+    return this.repository.remove(id);
   }
 }
