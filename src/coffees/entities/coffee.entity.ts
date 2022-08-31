@@ -19,7 +19,13 @@ export class Coffee {
   brand: string;
 
   @JoinTable()
-  // eslint-disable-next-line
-  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
+  @ManyToMany(
+    // eslint-disable-next-line
+    (type) => Flavor,
+    (flavor) => flavor.coffees,
+    {
+      cascade: true,
+    },
+  )
   flavors?: Flavor[];
 }
