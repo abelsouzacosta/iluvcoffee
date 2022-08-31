@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CoffeeRepository } from './domain/repositories/coffee.repository';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -11,8 +12,8 @@ export class CoffeesService {
     return this.repository.create(data);
   }
 
-  findAll() {
-    return this.repository.find();
+  findAll(query: PaginationQueryDto) {
+    return this.repository.find(query);
   }
 
   async findOne(id: number) {
