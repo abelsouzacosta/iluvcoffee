@@ -1,6 +1,9 @@
-import { CreateCoffeeTableMigration1662005837538 } from './src/common/infra/typeorm/migrations/1662005837538-CreateCoffeeTableMigration';
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
+import {
+  CreateFlavorsMigrationTable1662008561676,
+  CreateCoffeeTableMigration1662005837538,
+} from './src/common/infra/typeorm/migrations';
 
 export default new DataSource({
   type: 'postgres',
@@ -9,5 +12,8 @@ export default new DataSource({
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  migrations: [CreateCoffeeTableMigration1662005837538],
+  migrations: [
+    CreateCoffeeTableMigration1662005837538,
+    CreateFlavorsMigrationTable1662008561676,
+  ],
 });
