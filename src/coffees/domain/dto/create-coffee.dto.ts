@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCoffeeDto {
   @IsString({
@@ -16,4 +16,16 @@ export class CreateCoffeeDto {
     message: 'brand should be provided',
   })
   brand: string;
+
+  @IsString({
+    each: true,
+    message: 'flavors entity should be an string',
+  })
+  @IsArray({
+    message: 'flavors should be an array',
+  })
+  @ArrayNotEmpty({
+    message: 'flavors should be provided',
+  })
+  flavors: string[];
 }
