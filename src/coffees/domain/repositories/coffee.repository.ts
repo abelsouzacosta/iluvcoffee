@@ -4,6 +4,7 @@ import { Coffee } from '../../entities/coffee.entity';
 import { Repository } from 'typeorm';
 import { CreateCoffeeDto } from '../dto/create-coffee.dto';
 import { UpdateCoffeeDto } from '../dto/update-coffee.dto';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 
 @Injectable()
 export class CoffeeRepository {
@@ -18,8 +19,11 @@ export class CoffeeRepository {
     return this.model.save(coffee);
   }
 
-  find(): Promise<Array<Coffee>> {
-    return this.model.find();
+  find({ limit, offset }: PaginationQueryDto): Promise<Array<Coffee>> {
+    return this.model.find({
+      take: limit,
+      skip: offset,
+    });
   }
 
   findById(id: number): Promise<Coffee> {
