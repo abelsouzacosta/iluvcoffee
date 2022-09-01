@@ -9,12 +9,16 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { ApiKeyGuard } from '../common/guards/api-key.guard';
+import { Public } from '../common/decorators/public.decorator';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './domain/dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './domain/dto/update-coffee.dto';
 
+@UseGuards(ApiKeyGuard)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
@@ -25,11 +29,13 @@ export class CoffeesController {
     return this.coffeesService.create(data);
   }
 
+  @Public()
   @Get()
-  findAll(@Query() query: PaginationQueryDto) {
+  findAll(@Query(new ValidationPipe()) query: PaginationQueryDto) {
     return this.coffeesService.findAll(query);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.coffeesService.findOne(+id);
