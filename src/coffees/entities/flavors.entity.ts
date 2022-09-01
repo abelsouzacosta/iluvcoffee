@@ -17,6 +17,14 @@ export class Flavor {
 
   @JoinTable({
     name: 'coffees_flavors',
+    joinColumn: {
+      name: 'flavor_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'coffee_id',
+      referencedColumnName: 'id',
+    },
   })
   // eslint-disable-next-line
   @ManyToMany((type) => Coffee, (coffee) => coffee.flavors)
