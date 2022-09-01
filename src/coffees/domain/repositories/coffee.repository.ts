@@ -31,6 +31,7 @@ export class CoffeeRepository {
 
   find({ limit, offset }: PaginationQueryDto): Promise<Array<Coffee>> {
     return this.model.find({
+      relations: ['flavors'],
       take: limit,
       skip: offset,
     });
@@ -41,6 +42,7 @@ export class CoffeeRepository {
       where: {
         id,
       },
+      relations: ['flavors'],
     });
   }
 
