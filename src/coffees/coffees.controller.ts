@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiKeyGuard } from '../common/guards/api-key.guard';
 import { Public } from '../common/decorators/public.decorator';
@@ -17,8 +18,10 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './domain/dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './domain/dto/update-coffee.dto';
+import { WrapResponseInterceptor } from '../common/interceptors/wrap-response.interceptor';
 
 @UseGuards(ApiKeyGuard)
+@UseInterceptors(WrapResponseInterceptor)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
