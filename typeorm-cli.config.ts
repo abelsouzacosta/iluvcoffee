@@ -3,6 +3,7 @@ import 'dotenv/config';
 import {
   CreateFlavorsMigrationTable1662008561676,
   CreateCoffeeTableMigration1662005837538,
+  CreateCoffeeFlavorsTableMigration1662035729655,
 } from './src/common/infra/typeorm/migrations';
 
 export default new DataSource({
@@ -15,5 +16,6 @@ export default new DataSource({
   migrations: [
     CreateCoffeeTableMigration1662005837538,
     CreateFlavorsMigrationTable1662008561676,
+    CreateCoffeeFlavorsTableMigration1662035729655,
   ],
 });
