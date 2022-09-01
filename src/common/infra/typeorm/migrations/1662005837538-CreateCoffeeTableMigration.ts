@@ -12,6 +12,8 @@ export class CreateCoffeeTableMigration1662005837538
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'name',
