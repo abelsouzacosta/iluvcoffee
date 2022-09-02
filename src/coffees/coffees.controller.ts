@@ -15,13 +15,14 @@ import {
 import { ApiKeyGuard } from '../common/guards/api-key.guard';
 import { Public } from '../common/decorators/public.decorator';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { TimeoutInterceptor } from '../common/interceptors/timeout.interceptor';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './domain/dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './domain/dto/update-coffee.dto';
 import { WrapResponseInterceptor } from '../common/interceptors/wrap-response.interceptor';
 
 @UseGuards(ApiKeyGuard)
-@UseInterceptors(WrapResponseInterceptor)
+@UseInterceptors(WrapResponseInterceptor, TimeoutInterceptor)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
@@ -34,7 +35,8 @@ export class CoffeesController {
 
   @Public()
   @Get()
-  findAll(@Query(new ValidationPipe()) query: PaginationQueryDto) {
+  async findAll(@Query(new ValidationPipe()) query: PaginationQueryDto) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.coffeesService.findAll(query);
   }
 
