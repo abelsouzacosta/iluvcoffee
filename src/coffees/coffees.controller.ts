@@ -20,13 +20,16 @@ import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './domain/dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './domain/dto/update-coffee.dto';
 import { WrapResponseInterceptor } from '../common/interceptors/wrap-response.interceptor';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('coffees')
 @UseGuards(ApiKeyGuard)
 @UseInterceptors(WrapResponseInterceptor, TimeoutInterceptor)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Post()
   @UsePipes(new ValidationPipe())
   create(@Body() data: CreateCoffeeDto) {
@@ -45,12 +48,14 @@ export class CoffeesController {
     return this.coffeesService.findOne(+id);
   }
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Patch(':id')
   @UsePipes(new ValidationPipe())
   update(@Param('id') id: string, @Body() data: UpdateCoffeeDto) {
     return this.coffeesService.update(+id, data);
   }
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.coffeesService.remove(+id);
