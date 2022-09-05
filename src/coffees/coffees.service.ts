@@ -12,7 +12,7 @@ export class CoffeesService {
     return this.repository.create(data);
   }
 
-  findAll(query: PaginationQueryDto) {
+  findAll(query?: PaginationQueryDto) {
     return this.repository.find(query);
   }
 
